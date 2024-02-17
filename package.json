@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@8.15.3",
-  "description": "Prefer early return pattern with if else statement",
+  "description": "Prefer early return pattern to clean if else statement",
   "author": {
     "name": "hyoban",
     "url": "https://github.com/hyoban"
@@ -34,15 +34,10 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "*": [
-        "./dist/*",
-        "./dist/index.d.ts"
-      ]
+      "*": ["./dist/*", "./dist/index.d.ts"]
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "bunchee",
     "dev": "bunchee -w",
@@ -52,11 +47,16 @@
     "test": "vitest",
     "typecheck": "tsc"
   },
+  "dependencies": {
+    "@typescript-eslint/utils": "^7.0.1"
+  },
   "devDependencies": {
     "@types/node": "^20.11.19",
+    "@typescript-eslint/rule-tester": "^7.0.1",
     "bunchee": "^4.4.6",
+    "dedent": "^1.5.1",
     "eslint": "^8.56.0",
-    "eslint-config-hyoban": "^0.1.8",
+    "eslint-config-hyoban": "^0.1.9",
     "lint-staged": "^15.2.2",
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.3.3",
