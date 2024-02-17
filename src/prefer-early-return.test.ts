@@ -43,8 +43,8 @@ ruleTester.run(
         errors: [
           {
             messageId: 'preferEarlyReturn',
-            line: 2,
-            column: 3,
+            line: 4,
+            column: 10,
           },
         ],
       },
@@ -61,8 +61,8 @@ ruleTester.run(
         errors: [
           {
             messageId: 'preferEarlyReturn',
-            line: 2,
-            column: 3,
+            line: 4,
+            column: 10,
           },
         ],
       },

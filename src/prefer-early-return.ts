@@ -34,7 +34,7 @@ const rule = createRule<Options, MessageIds>({
           )
         ) {
           context.report({
-            node,
+            node: node.alternate,
             messageId: 'preferEarlyReturn',
           })
         }
