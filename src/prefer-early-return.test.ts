@@ -40,6 +40,14 @@ ruleTester.run(
             }
           }
         `,
+        output: dedent`
+          function foo() {
+            if (!x) {
+              return z;
+            }
+            console.log('hello')
+          }
+        `,
         errors: [
           {
             messageId: 'preferEarlyReturn',
@@ -58,11 +66,40 @@ ruleTester.run(
             }
           }
         `,
+        output: dedent`
+          function foo() {
+            if (!x) {
+              throw new Error('error');
+            }
+            console.log('hello')
+          }
+        `,
         errors: [
           {
             messageId: 'preferEarlyReturn',
             line: 4,
             column: 10,
+          },
+        ],
+      },
+      {
+        code: dedent`
+          function foo() {
+            if (x) console.log("hello");
+            else throw new Error("error");
+          }
+        `,
+        output: dedent`
+          function foo() {
+            if (!x) throw new Error("error");
+            console.log("hello");
+          }
+        `,
+        errors: [
+          {
+            messageId: 'preferEarlyReturn',
+            line: 3,
+            column: 8,
           },
         ],
       },
