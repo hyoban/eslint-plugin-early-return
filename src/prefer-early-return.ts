@@ -57,7 +57,7 @@ const rule = createRule<Options, MessageIds>({
               const elseText = context.sourceCode.getText(node.alternate!)
 
               return [
-                fixer.replaceText(node, `if (!${condition}) ${elseText}\n${ifText}`),
+                fixer.replaceText(node, `if (!(${condition})) ${elseText}\n${ifText}`),
               ]
             },
           })

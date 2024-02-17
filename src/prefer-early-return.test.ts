@@ -42,7 +42,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!x) {
+            if (!(x)) {
               return z;
             }
             console.log('hello')
@@ -68,7 +68,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!x) {
+            if (!(x)) {
               throw new Error('error');
             }
             console.log('hello')
@@ -91,7 +91,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!x) throw new Error("error");
+            if (!(x)) throw new Error("error");
             console.log("hello");
           }
         `,
