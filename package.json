@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-early-return",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "packageManager": "pnpm@8.15.3",
   "description": "Prefer early return pattern to clean if else statement",
   "author": {
