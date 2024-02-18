@@ -42,7 +42,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!(x)) {
+            if (!x) {
               return z;
             }
             console.log('hello')
@@ -68,7 +68,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!(x)) {
+            if (!x) {
               throw new Error('error');
             }
             console.log('hello')
@@ -91,7 +91,7 @@ ruleTester.run(
         `,
         output: dedent`
           function foo() {
-            if (!(x)) throw new Error("error");
+            if (!x) throw new Error("error");
             console.log("hello");
           }
         `,
@@ -115,7 +115,32 @@ ruleTester.run(
         output: dedent`
           function foo() {
             for (const a of b) {
-              if (!(x)) continue
+              if (!x) continue
+              console.log("hello");
+            }
+          }
+        `,
+        errors: [
+          {
+            messageId: 'preferEarlyReturn',
+            line: 4,
+            column: 10,
+          },
+        ],
+      },
+      {
+        code: dedent`
+          function foo() {
+            for (const a of b) {
+              if (x || y) console.log("hello");
+              else continue
+            }
+          }
+        `,
+        output: dedent`
+          function foo() {
+            for (const a of b) {
+              if (!(x || y)) continue
               console.log("hello");
             }
           }

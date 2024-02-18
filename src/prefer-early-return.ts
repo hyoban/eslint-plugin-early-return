@@ -7,6 +7,10 @@ import { createRule } from './utils'
 export type MessageIds = 'preferEarlyReturn'
 export type Options = []
 
+function isConditionRevertNeedBracket(node: TSESTree.Node) {
+  return !(node.type === AST_NODE_TYPES.Identifier)
+}
+
 function getIndentation(node: TSESTree.Node) {
   return ' '.repeat(node.loc.start.column)
 }
@@ -51,6 +55,9 @@ const rule = createRule<Options, MessageIds>({
             messageId: 'preferEarlyReturn',
             fix(fixer) {
               const condition = context.sourceCode.getText(node.test)
+              const revertCondition = isConditionRevertNeedBracket(node.test)
+                ? `!(${condition})`
+                : `!${condition}`
 
               let ifText = context.sourceCode.getText(node.consequent)
 
@@ -64,7 +71,7 @@ const rule = createRule<Options, MessageIds>({
               const elseText = context.sourceCode.getText(node.alternate!)
 
               return [
-                fixer.replaceText(node, `if (!(${condition})) ${elseText}\n${ifText}`),
+                fixer.replaceText(node, `if (${revertCondition}) ${elseText}\n${ifText}`),
               ]
             },
           })
