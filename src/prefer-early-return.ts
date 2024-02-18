@@ -1,11 +1,23 @@
 // eslint-disable-next-line unused-imports/no-unused-imports
-import type { ESLintUtils } from '@typescript-eslint/utils'
+import type { ESLintUtils, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { createRule } from './utils'
 
 export type MessageIds = 'preferEarlyReturn'
 export type Options = []
+
+function getIndentation(node: TSESTree.Node) {
+  return ' '.repeat(node.loc.start.column)
+}
+
+function isNodeNeedEarlyReturn(node: TSESTree.Node) {
+  return (
+    node.type === AST_NODE_TYPES.ReturnStatement
+    || node.type === AST_NODE_TYPES.ThrowStatement
+    || node.type === AST_NODE_TYPES.ContinueStatement
+  )
+}
 
 const rule = createRule<Options, MessageIds>({
   name: 'prefer-early-return',
@@ -28,15 +40,10 @@ const rule = createRule<Options, MessageIds>({
           return
         }
         if (
-          (
-            node.alternate.type === AST_NODE_TYPES.ReturnStatement
-            || node.alternate.type === AST_NODE_TYPES.ThrowStatement
-          )
+          isNodeNeedEarlyReturn(node.alternate)
           || (
             node.alternate.type === AST_NODE_TYPES.BlockStatement
-            && (node.alternate.body.some(statement =>
-              statement.type === AST_NODE_TYPES.ReturnStatement
-              || statement.type === AST_NODE_TYPES.ThrowStatement))
+            && (node.alternate.body.some(statement => isNodeNeedEarlyReturn(statement)))
           )
         ) {
           context.report({
@@ -52,7 +59,7 @@ const rule = createRule<Options, MessageIds>({
                   .replace(/}$/, '')
                   .replaceAll('\n  ', '\n')
                   .slice(1, -1)
-                : `  ${ifText}`
+                : `${getIndentation(node)}${ifText}`
 
               const elseText = context.sourceCode.getText(node.alternate!)
 

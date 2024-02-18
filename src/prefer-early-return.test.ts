@@ -103,6 +103,31 @@ ruleTester.run(
           },
         ],
       },
+      {
+        code: dedent`
+          function foo() {
+            for (const a of b) {
+              if (x) console.log("hello");
+              else continue
+            }
+          }
+        `,
+        output: dedent`
+          function foo() {
+            for (const a of b) {
+              if (!(x)) continue
+              console.log("hello");
+            }
+          }
+        `,
+        errors: [
+          {
+            messageId: 'preferEarlyReturn',
+            line: 4,
+            column: 10,
+          },
+        ],
+      },
     ],
   },
 )
