@@ -8,7 +8,12 @@ export type MessageIds = 'preferEarlyReturn'
 export type Options = []
 
 function isConditionRevertNeedBracket(node: TSESTree.Node) {
-  return !(node.type === AST_NODE_TYPES.Identifier)
+  return !(
+    node.type === AST_NODE_TYPES.Identifier
+    || node.type === AST_NODE_TYPES.Literal
+    || node.type === AST_NODE_TYPES.MemberExpression
+    || node.type === AST_NODE_TYPES.CallExpression
+  )
 }
 
 function getIndentation(node: TSESTree.Node) {
