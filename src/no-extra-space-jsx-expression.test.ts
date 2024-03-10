@@ -59,6 +59,11 @@ ruleTester.run(
                       ? fieldConfigItem.inputProps.options
                       : []
                   }
+                  fieldConfig={
+                    (fieldConfig?.[name] ?? {}) as FieldConfig<
+                      z.infer<typeof item>
+                  >
+                  }
                 />
               ))}
               {1}

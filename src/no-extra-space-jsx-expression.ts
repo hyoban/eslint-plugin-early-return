@@ -11,6 +11,7 @@ const expressionTypesNoCheck = new Set([
   AST_NODE_TYPES.ArrowFunctionExpression,
   AST_NODE_TYPES.ConditionalExpression,
   AST_NODE_TYPES.JSXElement,
+  AST_NODE_TYPES.TSAsExpression,
 ])
 
 const rule = createRule<Options, MessageIds>({
