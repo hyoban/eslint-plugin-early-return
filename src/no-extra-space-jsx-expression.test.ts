@@ -42,6 +42,30 @@ ruleTester.run(
           );
         }      
       `,
+      dedent`
+        function OutputNode({ data }) {
+          return (
+            <div className="border rounded-md bg-white w-12 h-10">
+              {data.handle?.map((h, i) => (
+                <CustomHandle
+                  fallback={(
+                    <Loading>
+                      From filed
+                      {itemName}
+                    </Loading>
+                  )}
+                  options={
+                    Array.isArray(fieldConfigItem.inputProps?.options)
+                      ? fieldConfigItem.inputProps.options
+                      : []
+                  }
+                />
+              ))}
+              {1}
+            </div>
+          );
+        }
+      `,
     ],
     invalid: [
       {

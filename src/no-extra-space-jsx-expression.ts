@@ -9,6 +9,8 @@ export type Options = []
 
 const expressionTypesNoCheck = new Set([
   AST_NODE_TYPES.ArrowFunctionExpression,
+  AST_NODE_TYPES.ConditionalExpression,
+  AST_NODE_TYPES.JSXElement,
 ])
 
 const rule = createRule<Options, MessageIds>({
