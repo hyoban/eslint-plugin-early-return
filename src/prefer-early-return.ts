@@ -45,9 +45,9 @@ const rule = createRule<Options, MessageIds>({
   create(context) {
     return {
       IfStatement(node) {
-        if (!node.alternate) {
+        if (!node.alternate)
           return
-        }
+
         if (
           isNodeNeedEarlyReturn(node.alternate)
           || (
