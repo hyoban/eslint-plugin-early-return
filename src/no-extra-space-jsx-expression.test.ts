@@ -52,9 +52,9 @@ ruleTester.run(
                 {
                      data.handle?.map((h, i) => (
                   <CustomHandle
-                    key={i}
+                    key={  i  }
                     type="target"
-                    position={Position.Left}
+                    position={   Position.Left}
                     style={getHandleStyle(h.type, i)}
                     id={ [handleIdIndicator, handleOutputIndicator, h.type, i].join(
                       separator,
@@ -105,6 +105,26 @@ ruleTester.run(
           {
             line: 4,
             column: 7,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 7,
+            column: 15,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 7,
+            column: 15,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 9,
+            column: 20,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 9,
+            column: 20,
             messageId: 'noExtraSpaceJsxExpression',
           },
           {
