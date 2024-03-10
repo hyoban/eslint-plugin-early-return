@@ -45,14 +45,18 @@ const rule = createRule<Options, MessageIds>({
       )
         return
 
+      const rangeToRemove: [number, number] = isExit
+        ? [expressionRange[1], containerRange[1] - 1]
+        : [containerRange[0] + 1, expressionRange[0]]
+
       context.report({
         node,
-        messageId: 'noExtraSpaceJsxExpression',
-        fix(fixer) {
-          return isExit
-            ? fixer.removeRange([expressionRange[1], containerRange[1] - 1])
-            : fixer.removeRange([containerRange[0] + 1, expressionRange[0]])
+        loc: {
+          start: context.sourceCode.getLocFromIndex(rangeToRemove[0]),
+          end: context.sourceCode.getLocFromIndex(rangeToRemove[1]),
         },
+        messageId: 'noExtraSpaceJsxExpression',
+        fix: fixer => fixer.removeRange(rangeToRemove),
       })
     }
 
