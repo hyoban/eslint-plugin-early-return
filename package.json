@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-early-return",
+  "name": "eslint-plugin-hyoban",
   "type": "module",
   "version": "0.0.6",
   "packageManager": "pnpm@8.15.4",
@@ -9,9 +9,9 @@
     "url": "https://github.com/hyoban"
   },
   "license": "MIT",
-  "homepage": "https://github.com/hyoban/eslint-plugin-early-return#readme",
-  "repository": "hyoban/eslint-plugin-early-return",
-  "bugs": "https://github.com/hyoban/eslint-plugin-early-return/issues",
+  "homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
+  "repository": "hyoban/eslint-plugin-hyoban",
+  "bugs": "https://github.com/hyoban/eslint-plugin-hyoban/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {
