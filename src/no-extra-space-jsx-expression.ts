@@ -7,12 +7,8 @@ import { createRule } from './utils'
 export type MessageIds = 'noExtraSpaceJsxExpression'
 export type Options = []
 
-const checkedExpressionTypes = new Set([
-  AST_NODE_TYPES.CallExpression,
-  AST_NODE_TYPES.ChainExpression,
-  AST_NODE_TYPES.Identifier,
-  AST_NODE_TYPES.Literal,
-  AST_NODE_TYPES.MemberExpression,
+const expressionTypesNoCheck = new Set([
+  AST_NODE_TYPES.ArrowFunctionExpression,
 ])
 
 const rule = createRule<Options, MessageIds>({
@@ -33,7 +29,7 @@ const rule = createRule<Options, MessageIds>({
     function check(node: TSESTree.JSXExpressionContainer, isExit?: boolean) {
       const { expression } = node
       if (
-        !checkedExpressionTypes.has(expression.type)
+        expressionTypesNoCheck.has(expression.type)
       )
         return
 
