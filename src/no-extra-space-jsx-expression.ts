@@ -11,6 +11,7 @@ const checkedExpressionTypes = new Set([
   AST_NODE_TYPES.CallExpression,
   AST_NODE_TYPES.ChainExpression,
   AST_NODE_TYPES.Identifier,
+  AST_NODE_TYPES.Literal,
   AST_NODE_TYPES.MemberExpression,
 ])
 

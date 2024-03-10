@@ -67,9 +67,11 @@ ruleTester.run(
                     }
                   />
                 ))   }
+                {
+                  1}
               </div>
             );
-          }      
+          }
         `,
         output: dedent`
           function OutputNode({ data }) {
@@ -92,9 +94,10 @@ ruleTester.run(
                     }
                   />
                 ))}
+                {1}
               </div>
             );
-          }      
+          }
         `,
         errors: [
           {
@@ -135,6 +138,16 @@ ruleTester.run(
           {
             line: 11,
             column: 14,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 22,
+            column: 7,
+            messageId: 'noExtraSpaceJsxExpression',
+          },
+          {
+            line: 22,
+            column: 7,
             messageId: 'noExtraSpaceJsxExpression',
           },
         ],
