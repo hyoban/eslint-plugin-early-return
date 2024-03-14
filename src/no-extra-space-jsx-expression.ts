@@ -8,7 +8,6 @@ export type MessageIds = 'noExtraSpaceJsxExpression'
 export type Options = []
 
 const expressionTypesNoCheck = new Set([
-  AST_NODE_TYPES.ArrowFunctionExpression,
   AST_NODE_TYPES.ConditionalExpression,
   AST_NODE_TYPES.JSXElement,
   AST_NODE_TYPES.TSAsExpression,
@@ -33,15 +32,20 @@ const rule = createRule<Options, MessageIds>({
       const { expression } = node
       if (
         expressionTypesNoCheck.has(expression.type)
+        || (expression.type === AST_NODE_TYPES.ArrowFunctionExpression
+        && expression.body.type !== AST_NODE_TYPES.BlockStatement
+        )
       )
         return
 
       const containerRange = node.range
       const expressionRange = expression.range
-      if (
-        containerRange[1] - expressionRange[1] === 1
-        && expressionRange[0] - containerRange[0] === 1
-      )
+
+      const noSpace = isExit
+        ? containerRange[1] - expressionRange[1] === 1
+        : expressionRange[0] - containerRange[0] === 1
+
+      if (noSpace)
         return
 
       const rangeToRemove: [number, number] = isExit

@@ -30,9 +30,9 @@ ruleTester.run(
                   id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
                     separator,
                   )}
-                  isValidConnection={(c) =>
-                    h.type === c.sourceHandle?.split(separator).at(-2)
-                  }
+                  isValidConnection={(c) => {
+                    return h.type === c.sourceHandle?.split(separator).at(-2);
+                  }}
                   isConnectable={({ connectedEdges, handleId }) =>
                     !connectedEdges.some((e) => e.targetHandle === handleId)
                   }
@@ -40,7 +40,7 @@ ruleTester.run(
               ))}
             </div>
           );
-        }      
+        }
       `,
       dedent`
         function OutputNode({ data }) {
@@ -62,7 +62,7 @@ ruleTester.run(
                   fieldConfig={
                     (fieldConfig?.[name] ?? {}) as FieldConfig<
                       z.infer<typeof item>
-                  >
+                    >
                   }
                 />
               ))}
@@ -158,13 +158,6 @@ ruleTester.run(
             endColumn: 24,
           },
           {
-            line: 9,
-            column: 37,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 9,
-            endColumn: 37,
-          },
-          {
             line: 11,
             column: 15,
             messageId: 'noExtraSpaceJsxExpression',
@@ -192,12 +185,30 @@ ruleTester.run(
             endLine: 23,
             endColumn: 9,
           },
+        ],
+      },
+      {
+        code: dedent`
+          <CustomHandle
+            isValidConnection={(c) => {
+              return h.type === c.sourceHandle?.split(separator).at(-2);
+            }                }
+          />
+        `,
+        output: dedent`
+          <CustomHandle
+            isValidConnection={(c) => {
+              return h.type === c.sourceHandle?.split(separator).at(-2);
+            }}
+          />
+        `,
+        errors: [
           {
-            line: 23,
-            column: 10,
+            line: 4,
+            column: 4,
             messageId: 'noExtraSpaceJsxExpression',
-            endLine: 23,
-            endColumn: 10,
+            endLine: 4,
+            endColumn: 20,
           },
         ],
       },
