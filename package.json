@@ -45,7 +45,6 @@
 		"dev": "bunchee -w",
 		"lint": "eslint . && prettier --check .",
 		"lint:fix": "eslint . --fix && prettier --write .",
-		"prepare": "simple-git-hooks",
 		"prepublishOnly": "pnpm run build",
 		"test": "vitest",
 		"typecheck": "tsc"
@@ -61,19 +60,9 @@
 		"dedent": "^1.5.3",
 		"eslint": "^9.0.0",
 		"eslint-config-hyoban": "^0.6.0",
-		"lint-staged": "^15.2.2",
 		"prettier": "^3.2.5",
 		"prettier-plugin-curly": "^0.2.1",
-		"release-it": "^17.1.1",
-		"release-it-pnpm": "4.0.2",
-		"simple-git-hooks": "^2.11.1",
 		"typescript": "^5.4.5",
 		"vitest": "^1.4.0"
-	},
-	"simple-git-hooks": {
-		"pre-commit": "pnpm lint-staged"
-	},
-	"lint-staged": {
-		"*": "eslint --fix"
 	}
 }
