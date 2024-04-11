@@ -1,19 +1,18 @@
 {
 	"name": "eslint-plugin-hyoban",
-	"type": "module",
 	"version": "0.2.7",
-	"packageManager": "pnpm@8.15.6",
 	"description": "Prefer early return pattern to clean if else statement",
+	"keywords": [],
+	"homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
+	"bugs": "https://github.com/hyoban/eslint-plugin-hyoban/issues",
+	"repository": "hyoban/eslint-plugin-hyoban",
+	"license": "MIT",
 	"author": {
 		"name": "hyoban",
 		"url": "https://github.com/hyoban"
 	},
-	"license": "MIT",
-	"homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
-	"repository": "hyoban/eslint-plugin-hyoban",
-	"bugs": "https://github.com/hyoban/eslint-plugin-hyoban/issues",
-	"keywords": [],
 	"sideEffects": false,
+	"type": "module",
 	"exports": {
 		".": {
 			"import": {
@@ -43,8 +42,8 @@
 	"scripts": {
 		"build": "bunchee",
 		"dev": "bunchee -w",
-		"lint": "eslint . && prettier --check .",
-		"lint:fix": "eslint . --fix && prettier --write .",
+		"lint": "prettier --check . && eslint .",
+		"lint:fix": "prettier --write . && eslint . --fix",
 		"prepublishOnly": "pnpm run build",
 		"test": "vitest",
 		"typecheck": "tsc"
@@ -59,10 +58,12 @@
 		"bunchee": "^5.1.2",
 		"dedent": "^1.5.3",
 		"eslint": "8.57.0",
-		"eslint-config-hyoban": "^0.6.0",
+		"eslint-config-hyoban": "^0.7.1",
 		"prettier": "^3.2.5",
 		"prettier-plugin-curly": "^0.2.1",
+		"prettier-plugin-packagejson": "^2.4.14",
 		"typescript": "^5.4.5",
 		"vitest": "^1.4.0"
-	}
+	},
+	"packageManager": "pnpm@8.15.6"
 }
