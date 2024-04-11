@@ -4,20 +4,17 @@ import dedent from 'dedent'
 import noExtraSpaceJsxExpression from './no-extra-space-jsx-expression'
 
 const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
+	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		ecmaFeatures: {
+			jsx: true,
+		},
+	},
 })
 
-ruleTester.run(
-  'no-extra-space-jsx-expression',
-  noExtraSpaceJsxExpression,
-  {
-    valid: [
-      dedent`
+ruleTester.run('no-extra-space-jsx-expression', noExtraSpaceJsxExpression, {
+	valid: [
+		dedent`
         function OutputNode({ data }) {
           return (
             <div className="border rounded-md bg-white w-12 h-10">
@@ -42,7 +39,7 @@ ruleTester.run(
           );
         }
       `,
-      dedent`
+		dedent`
         function OutputNode({ data }) {
           return (
             <div className="border rounded-md bg-white w-12 h-10">
@@ -71,10 +68,10 @@ ruleTester.run(
           );
         }
       `,
-    ],
-    invalid: [
-      {
-        code: dedent`
+	],
+	invalid: [
+		{
+			code: dedent`
           function OutputNode({ data }) {
             return (
               <div className="border rounded-md bg-white w-12 h-10">
@@ -102,7 +99,7 @@ ruleTester.run(
             );
           }
         `,
-        output: dedent`
+			output: dedent`
           function OutputNode({ data }) {
             return (
               <div className="border rounded-md bg-white w-12 h-10">
@@ -128,90 +125,89 @@ ruleTester.run(
             );
           }
         `,
-        errors: [
-          {
-            line: 4,
-            column: 8,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 5,
-            endColumn: 12,
-          },
-          {
-            line: 7,
-            column: 16,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 7,
-            endColumn: 18,
-          },
-          {
-            line: 7,
-            column: 19,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 7,
-            endColumn: 21,
-          },
-          {
-            line: 9,
-            column: 21,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 9,
-            endColumn: 24,
-          },
-          {
-            line: 11,
-            column: 15,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 11,
-            endColumn: 16,
-          },
-          {
-            line: 13,
-            column: 12,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 13,
-            endColumn: 16,
-          },
-          {
-            line: 21,
-            column: 9,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 21,
-            endColumn: 12,
-          },
-          {
-            line: 22,
-            column: 8,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 23,
-            endColumn: 9,
-          },
-        ],
-      },
-      {
-        code: dedent`
+			errors: [
+				{
+					line: 4,
+					column: 8,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 5,
+					endColumn: 12,
+				},
+				{
+					line: 7,
+					column: 16,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 7,
+					endColumn: 18,
+				},
+				{
+					line: 7,
+					column: 19,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 7,
+					endColumn: 21,
+				},
+				{
+					line: 9,
+					column: 21,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 9,
+					endColumn: 24,
+				},
+				{
+					line: 11,
+					column: 15,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 11,
+					endColumn: 16,
+				},
+				{
+					line: 13,
+					column: 12,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 13,
+					endColumn: 16,
+				},
+				{
+					line: 21,
+					column: 9,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 21,
+					endColumn: 12,
+				},
+				{
+					line: 22,
+					column: 8,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 23,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: dedent`
           <CustomHandle
             isValidConnection={(c) => {
               return h.type === c.sourceHandle?.split(separator).at(-2);
             }                }
           />
         `,
-        output: dedent`
+			output: dedent`
           <CustomHandle
             isValidConnection={(c) => {
               return h.type === c.sourceHandle?.split(separator).at(-2);
             }}
           />
         `,
-        errors: [
-          {
-            line: 4,
-            column: 4,
-            messageId: 'noExtraSpaceJsxExpression',
-            endLine: 4,
-            endColumn: 20,
-          },
-        ],
-      },
-    ],
-  },
-)
+			errors: [
+				{
+					line: 4,
+					column: 4,
+					messageId: 'noExtraSpaceJsxExpression',
+					endLine: 4,
+					endColumn: 20,
+				},
+			],
+		},
+	],
+})

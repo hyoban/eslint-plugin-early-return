@@ -1,75 +1,79 @@
 {
-  "name": "eslint-plugin-hyoban",
-  "type": "module",
-  "version": "0.2.7",
-  "packageManager": "pnpm@8.15.4",
-  "description": "Prefer early return pattern to clean if else statement",
-  "author": {
-    "name": "hyoban",
-    "url": "https://github.com/hyoban"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
-  "repository": "hyoban/eslint-plugin-hyoban",
-  "bugs": "https://github.com/hyoban/eslint-plugin-hyoban/issues",
-  "keywords": [],
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./dist/index.d.ts"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "bunchee",
-    "dev": "bunchee -w",
-    "lint": "eslint .",
-    "prepare": "simple-git-hooks",
-    "prepublishOnly": "pnpm run build",
-    "test": "vitest",
-    "typecheck": "tsc"
-  },
-  "dependencies": {
-    "@typescript-eslint/utils": "^7.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.27",
-    "@typescript-eslint/rule-tester": "^7.2.0",
-    "bunchee": "^4.4.8",
-    "dedent": "^1.5.1",
-    "eslint": "^8.57.0",
-    "eslint-config-hyoban": "^0.2.1",
-    "lint-staged": "^15.2.2",
-    "release-it": "^17.1.1",
-    "release-it-pnpm": "4.0.2",
-    "simple-git-hooks": "^2.10.0",
-    "typescript": "^5.4.2",
-    "vitest": "^1.3.1"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
-  }
+	"name": "eslint-plugin-hyoban",
+	"type": "module",
+	"version": "0.2.7",
+	"packageManager": "pnpm@8.15.6",
+	"description": "Prefer early return pattern to clean if else statement",
+	"author": {
+		"name": "hyoban",
+		"url": "https://github.com/hyoban"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
+	"repository": "hyoban/eslint-plugin-hyoban",
+	"bugs": "https://github.com/hyoban/eslint-plugin-hyoban/issues",
+	"keywords": [],
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"typesVersions": {
+		"*": {
+			"*": [
+				"./dist/*",
+				"./dist/index.d.ts"
+			]
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "bunchee",
+		"dev": "bunchee -w",
+		"lint": "eslint . && prettier --check .",
+		"lint:fix": "eslint . --fix && prettier --write .",
+		"prepare": "simple-git-hooks",
+		"prepublishOnly": "pnpm run build",
+		"test": "vitest",
+		"typecheck": "tsc"
+	},
+	"dependencies": {
+		"@typescript-eslint/utils": "^7.6.0"
+	},
+	"devDependencies": {
+		"@ianvs/prettier-plugin-sort-imports": "^4.2.1",
+		"@types/node": "^20.12.7",
+		"@typescript-eslint/rule-tester": "^7.6.0",
+		"bunchee": "^5.1.2",
+		"dedent": "^1.5.3",
+		"eslint": "^9.0.0",
+		"eslint-config-hyoban": "^0.6.0",
+		"lint-staged": "^15.2.2",
+		"prettier": "^3.2.5",
+		"prettier-plugin-curly": "^0.2.1",
+		"release-it": "^17.1.1",
+		"release-it-pnpm": "4.0.2",
+		"simple-git-hooks": "^2.11.1",
+		"typescript": "^5.4.5",
+		"vitest": "^1.4.0"
+	},
+	"simple-git-hooks": {
+		"pre-commit": "pnpm lint-staged"
+	},
+	"lint-staged": {
+		"*": "eslint --fix"
+	}
 }

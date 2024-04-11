@@ -4,15 +4,12 @@ import dedent from 'dedent'
 import preferEarlyReturn from './prefer-early-return'
 
 const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
+	parser: '@typescript-eslint/parser',
 })
 
-ruleTester.run(
-  'prefer-early-return',
-  preferEarlyReturn,
-  {
-    valid: [
-      dedent`
+ruleTester.run('prefer-early-return', preferEarlyReturn, {
+	valid: [
+		dedent`
         function foo() {
           if (!x) {
             return z;
@@ -20,7 +17,7 @@ ruleTester.run(
           console.log('hello')
         }
       `,
-      dedent`
+		dedent`
         function foo() {
           if (!x) {
             throw new Error('error');
@@ -28,10 +25,10 @@ ruleTester.run(
           console.log('hello')
         }
       `,
-    ],
-    invalid: [
-      {
-        code: dedent`
+	],
+	invalid: [
+		{
+			code: dedent`
           function foo() {
             if (x) {
               console.log('hello')
@@ -40,7 +37,7 @@ ruleTester.run(
             }
           }
         `,
-        output: dedent`
+			output: dedent`
           function foo() {
             if (!x) {
               return z;
@@ -48,16 +45,16 @@ ruleTester.run(
             console.log('hello')
           }
         `,
-        errors: [
-          {
-            messageId: 'preferEarlyReturn',
-            line: 4,
-            column: 10,
-          },
-        ],
-      },
-      {
-        code: dedent`
+			errors: [
+				{
+					messageId: 'preferEarlyReturn',
+					line: 4,
+					column: 10,
+				},
+			],
+		},
+		{
+			code: dedent`
           function foo() {
             if (x) {
               console.log('hello')
@@ -66,7 +63,7 @@ ruleTester.run(
             }
           }
         `,
-        output: dedent`
+			output: dedent`
           function foo() {
             if (!x) {
               throw new Error('error');
@@ -74,37 +71,37 @@ ruleTester.run(
             console.log('hello')
           }
         `,
-        errors: [
-          {
-            messageId: 'preferEarlyReturn',
-            line: 4,
-            column: 10,
-          },
-        ],
-      },
-      {
-        code: dedent`
+			errors: [
+				{
+					messageId: 'preferEarlyReturn',
+					line: 4,
+					column: 10,
+				},
+			],
+		},
+		{
+			code: dedent`
           function foo() {
             if (x) console.log("hello");
             else throw new Error("error");
           }
         `,
-        output: dedent`
+			output: dedent`
           function foo() {
             if (!x) throw new Error("error");
             console.log("hello");
           }
         `,
-        errors: [
-          {
-            messageId: 'preferEarlyReturn',
-            line: 3,
-            column: 8,
-          },
-        ],
-      },
-      {
-        code: dedent`
+			errors: [
+				{
+					messageId: 'preferEarlyReturn',
+					line: 3,
+					column: 8,
+				},
+			],
+		},
+		{
+			code: dedent`
           function foo() {
             for (const a of b) {
               if (x) console.log("hello");
@@ -112,7 +109,7 @@ ruleTester.run(
             }
           }
         `,
-        output: dedent`
+			output: dedent`
           function foo() {
             for (const a of b) {
               if (!x) continue
@@ -120,16 +117,16 @@ ruleTester.run(
             }
           }
         `,
-        errors: [
-          {
-            messageId: 'preferEarlyReturn',
-            line: 4,
-            column: 10,
-          },
-        ],
-      },
-      {
-        code: dedent`
+			errors: [
+				{
+					messageId: 'preferEarlyReturn',
+					line: 4,
+					column: 10,
+				},
+			],
+		},
+		{
+			code: dedent`
           function foo() {
             for (const a of b) {
               if (x || y) console.log("hello");
@@ -137,7 +134,7 @@ ruleTester.run(
             }
           }
         `,
-        output: dedent`
+			output: dedent`
           function foo() {
             for (const a of b) {
               if (!(x || y)) continue
@@ -145,14 +142,13 @@ ruleTester.run(
             }
           }
         `,
-        errors: [
-          {
-            messageId: 'preferEarlyReturn',
-            line: 4,
-            column: 10,
-          },
-        ],
-      },
-    ],
-  },
-)
+			errors: [
+				{
+					messageId: 'preferEarlyReturn',
+					line: 4,
+					column: 10,
+				},
+			],
+		},
+	],
+})
