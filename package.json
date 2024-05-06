@@ -1,6 +1,6 @@
 {
 	"name": "eslint-plugin-hyoban",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"description": "Hyoban extended ESLint rules.",
 	"keywords": [],
 	"homepage": "https://github.com/hyoban/eslint-plugin-hyoban#readme",
