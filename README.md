@@ -5,7 +5,7 @@
 [![bundle][bundle-src]][bundle-href]
 [![JSDocs][jsdocs-src]][jsdocs-href]
 
-Prefer early return pattern to clean if else statement
+Hyoban extended ESLint rules.
 
 <!-- Badges -->
 
