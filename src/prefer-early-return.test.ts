@@ -1,5 +1,4 @@
-import dedent from 'dedent'
-import { run } from 'eslint-vitest-rule-tester'
+import { run, unindent } from 'eslint-vitest-rule-tester'
 import { expect } from 'vitest'
 
 import preferEarlyReturn from './prefer-early-return'
@@ -12,7 +11,7 @@ run({
 		sourceType: 'module',
 	},
 	valid: [
-		dedent`
+		unindent`
         function foo() {
           if (!x) {
             return z;
@@ -20,7 +19,7 @@ run({
           console.log('hello')
         }
       `,
-		dedent`
+		unindent`
         function foo() {
           if (!x) {
             throw new Error('error');
@@ -31,7 +30,7 @@ run({
 	],
 	invalid: [
 		{
-			code: dedent`
+			code: unindent`
           function foo() {
             if (x) {
               console.log('hello')
@@ -62,7 +61,7 @@ run({
 			},
 		},
 		{
-			code: dedent`
+			code: unindent`
           function foo() {
             if (x) {
               console.log('hello')
@@ -91,7 +90,7 @@ run({
 			},
 		},
 		{
-			code: dedent`
+			code: unindent`
           function foo() {
             if (x) console.log("hello");
             else throw new Error("error");
@@ -115,7 +114,7 @@ run({
 			},
 		},
 		{
-			code: dedent`
+			code: unindent`
           function foo() {
             for (const a of b) {
               if (x) console.log("hello");
@@ -143,7 +142,7 @@ run({
 			},
 		},
 		{
-			code: dedent`
+			code: unindent`
           function foo() {
             for (const a of b) {
               if (x || y) console.log("hello");

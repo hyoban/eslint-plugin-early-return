@@ -1,6 +1,5 @@
 import tsParser from '@typescript-eslint/parser'
-import dedent from 'dedent'
-import { run } from 'eslint-vitest-rule-tester'
+import { run, unindent } from 'eslint-vitest-rule-tester'
 import { expect } from 'vitest'
 
 import noExtraSpaceJsxExpression from './no-extra-space-jsx-expression'
@@ -24,7 +23,7 @@ run({
 		},
 	],
 	valid: [
-		dedent`
+		unindent`
         function OutputNode({ data }) {
           return (
             <div className="border rounded-md bg-white w-12 h-10">
@@ -49,7 +48,7 @@ run({
           );
         }
       `,
-		dedent`
+		unindent`
         function OutputNode({ data }) {
           return (
             <div className="border rounded-md bg-white w-12 h-10">
@@ -81,7 +80,7 @@ run({
 	],
 	invalid: [
 		{
-			code: dedent`
+			code: unindent`
           function OutputNode({ data }) {
             return (
               <div className="border rounded-md bg-white w-12 h-10">
@@ -154,7 +153,7 @@ run({
 			},
 		},
 		{
-			code: dedent`
+			code: unindent`
           <CustomHandle
             isValidConnection={(c) => {
               return h.type === c.sourceHandle?.split(separator).at(-2);
