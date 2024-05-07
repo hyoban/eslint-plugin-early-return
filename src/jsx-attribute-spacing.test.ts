@@ -24,6 +24,7 @@ run({
   ],
   valid: [
     'const element = <img src={user.avatarUrl} alt="hi" ></img>;',
+    'const element = <img src={user.avatarUrl}    alt="hi" ></img>;',
     unindent`
       const element = (
         <img
@@ -98,9 +99,23 @@ run({
       },
     },
     {
-      code: 'const element = <img src={user.avatarUrl}    alt="hi" ></img>;',
+      code: unindent`
+        const element = (
+          <img
+            src={user.avatarUrl}
+            alt="hi"className="border"
+          ></img>
+        );
+      `,
       output(output) {
-        expect(output).toMatchInlineSnapshot('"const element = <img src={user.avatarUrl} alt="hi" ></img>;"')
+        expect(output).toMatchInlineSnapshot(`
+          "const element = (
+            <img
+              src={user.avatarUrl}
+              alt="hi" className="border"
+            ></img>
+          );"
+        `)
       },
       errors(errors) {
         expect(errors).toHaveLength(1)

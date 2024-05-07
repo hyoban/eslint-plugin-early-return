@@ -77,18 +77,15 @@ const rule = createRule<Options, MessageIds>({
           const nextAttribute = attributes[index + 1]
           if (!nextAttribute)
             break
-          const isSameLine = attribute.loc.end.line === nextAttribute.loc.start.line
-          if (!isSameLine)
-            continue
 
           const { range } = attribute
           const nextRange = nextAttribute.range
           const spaceBetween = nextRange[0] - range[1]
-          if (spaceBetween !== 1) {
+          if (spaceBetween === 0) {
             context.report({
               node: nextAttribute,
               fix(fixer) {
-                return fixer.replaceTextRange([range[1], nextRange[0]], ' ')
+                return fixer.insertTextBefore(nextAttribute, ' ')
               },
               messageId: 'jsxAttributeSpacing',
             })
