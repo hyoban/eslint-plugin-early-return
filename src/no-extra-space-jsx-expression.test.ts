@@ -1,18 +1,28 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
+import tsParser from '@typescript-eslint/parser'
 import dedent from 'dedent'
+import { run } from 'eslint-vitest-rule-tester'
+import { expect } from 'vitest'
 
 import noExtraSpaceJsxExpression from './no-extra-space-jsx-expression'
 
-const ruleTester = new RuleTester({
-	parser: '@typescript-eslint/parser',
+run({
+	name: 'no-extra-space-jsx-expression',
+	rule: noExtraSpaceJsxExpression,
 	parserOptions: {
+		ecmaVersion: 2020,
+		sourceType: 'module',
 		ecmaFeatures: {
 			jsx: true,
 		},
 	},
-})
-
-ruleTester.run('no-extra-space-jsx-expression', noExtraSpaceJsxExpression, {
+	configs: [
+		{
+			files: ['**/*.ts', '**/*.js'],
+			languageOptions: {
+				parser: tsParser,
+			},
+		},
+	],
 	valid: [
 		dedent`
         function OutputNode({ data }) {
@@ -99,90 +109,49 @@ ruleTester.run('no-extra-space-jsx-expression', noExtraSpaceJsxExpression, {
             );
           }
         `,
-			output: dedent`
-          function OutputNode({ data }) {
-            return (
-              <div className="border rounded-md bg-white w-12 h-10">
-                {data.handle?.map((h, i) => (
-                  <CustomHandle
-                    key={i}
-                    type="target"
-                    position={Position.Left}
-                    style={getHandleStyle(h.type, i)}
-                    id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
-                      separator,
-                    )}
-                    isValidConnection={(c) =>
-                      h.type === c.sourceHandle?.split(separator).at(-2)
-                    }
-                    isConnectable={({ connectedEdges, handleId }) =>
-                      !connectedEdges.some((e) => e.targetHandle === handleId)
-                    }
-                  />
-                ))}
-                {1}
-              </div>
-            );
-          }
-        `,
-			errors: [
-				{
-					line: 4,
-					column: 8,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 5,
-					endColumn: 12,
-				},
-				{
-					line: 7,
-					column: 16,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 7,
-					endColumn: 18,
-				},
-				{
-					line: 7,
-					column: 19,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 7,
-					endColumn: 21,
-				},
-				{
-					line: 9,
-					column: 21,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 9,
-					endColumn: 24,
-				},
-				{
-					line: 11,
-					column: 15,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 11,
-					endColumn: 16,
-				},
-				{
-					line: 13,
-					column: 12,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 13,
-					endColumn: 16,
-				},
-				{
-					line: 21,
-					column: 9,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 21,
-					endColumn: 12,
-				},
-				{
-					line: 22,
-					column: 8,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 23,
-					endColumn: 9,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"function OutputNode({ data }) {
+					  return (
+					    <div className="border rounded-md bg-white w-12 h-10">
+					      {data.handle?.map((h, i) => (
+					        <CustomHandle
+					          key={i}
+					          type="target"
+					          position={Position.Left}
+					          style={getHandleStyle(h.type, i)}
+					          id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
+					            separator,
+					          )}
+					          isValidConnection={(c) =>
+					            h.type === c.sourceHandle?.split(separator).at(-2)
+					          }
+					          isConnectable={({ connectedEdges, handleId }) =>
+					            !connectedEdges.some((e) => e.targetHandle === handleId)
+					          }
+					        />
+					      ))}
+					      {1}
+					    </div>
+					  );
+					}"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(8)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+					[
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					  "noExtraSpaceJsxExpression",
+					]
+				`)
+			},
 		},
 		{
 			code: dedent`
@@ -192,22 +161,23 @@ ruleTester.run('no-extra-space-jsx-expression', noExtraSpaceJsxExpression, {
             }                }
           />
         `,
-			output: dedent`
-          <CustomHandle
-            isValidConnection={(c) => {
-              return h.type === c.sourceHandle?.split(separator).at(-2);
-            }}
-          />
-        `,
-			errors: [
-				{
-					line: 4,
-					column: 4,
-					messageId: 'noExtraSpaceJsxExpression',
-					endLine: 4,
-					endColumn: 20,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"<CustomHandle
+					  isValidConnection={(c) => {
+					    return h.type === c.sourceHandle?.split(separator).at(-2);
+					  }}
+					/>"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+					[
+					  "noExtraSpaceJsxExpression",
+					]
+				`)
+			},
 		},
 	],
 })

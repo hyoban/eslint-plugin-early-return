@@ -1,13 +1,16 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import dedent from 'dedent'
+import { run } from 'eslint-vitest-rule-tester'
+import { expect } from 'vitest'
 
 import preferEarlyReturn from './prefer-early-return'
 
-const ruleTester = new RuleTester({
-	parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('prefer-early-return', preferEarlyReturn, {
+run({
+	name: 'prefer-early-return',
+	rule: preferEarlyReturn,
+	parserOptions: {
+		ecmaVersion: 2020,
+		sourceType: 'module',
+	},
 	valid: [
 		dedent`
         function foo() {
@@ -37,21 +40,26 @@ ruleTester.run('prefer-early-return', preferEarlyReturn, {
             }
           }
         `,
-			output: dedent`
-          function foo() {
-            if (!x) {
-              return z;
-            }
-            console.log('hello')
-          }
-        `,
-			errors: [
-				{
-					messageId: 'preferEarlyReturn',
-					line: 4,
-					column: 10,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"function foo() {
+					  if (!x) {
+					    return z;
+					  }
+					  console.log('hello')
+					}"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(
+					`
+					[
+					  "preferEarlyReturn",
+					]
+				`,
+				)
+			},
 		},
 		{
 			code: dedent`
@@ -63,21 +71,24 @@ ruleTester.run('prefer-early-return', preferEarlyReturn, {
             }
           }
         `,
-			output: dedent`
-          function foo() {
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+          "function foo() {
             if (!x) {
               throw new Error('error');
             }
             console.log('hello')
-          }
-        `,
-			errors: [
-				{
-					messageId: 'preferEarlyReturn',
-					line: 4,
-					column: 10,
-				},
-			],
+          }"
+        `)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+          [
+            "preferEarlyReturn",
+          ]
+        `)
+			},
 		},
 		{
 			code: dedent`
@@ -86,19 +97,22 @@ ruleTester.run('prefer-early-return', preferEarlyReturn, {
             else throw new Error("error");
           }
         `,
-			output: dedent`
-          function foo() {
-            if (!x) throw new Error("error");
-            console.log("hello");
-          }
-        `,
-			errors: [
-				{
-					messageId: 'preferEarlyReturn',
-					line: 3,
-					column: 8,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"function foo() {
+					  if (!x) throw new Error("error");
+					  console.log("hello");
+					}"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+            [
+              "preferEarlyReturn",
+            ]
+          `)
+			},
 		},
 		{
 			code: dedent`
@@ -109,21 +123,24 @@ ruleTester.run('prefer-early-return', preferEarlyReturn, {
             }
           }
         `,
-			output: dedent`
-          function foo() {
-            for (const a of b) {
-              if (!x) continue
-              console.log("hello");
-            }
-          }
-        `,
-			errors: [
-				{
-					messageId: 'preferEarlyReturn',
-					line: 4,
-					column: 10,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"function foo() {
+					  for (const a of b) {
+					    if (!x) continue
+					    console.log("hello");
+					  }
+					}"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+            [
+              "preferEarlyReturn",
+            ]
+          `)
+			},
 		},
 		{
 			code: dedent`
@@ -134,21 +151,24 @@ ruleTester.run('prefer-early-return', preferEarlyReturn, {
             }
           }
         `,
-			output: dedent`
-          function foo() {
-            for (const a of b) {
-              if (!(x || y)) continue
-              console.log("hello");
-            }
-          }
-        `,
-			errors: [
-				{
-					messageId: 'preferEarlyReturn',
-					line: 4,
-					column: 10,
-				},
-			],
+			output(output) {
+				expect(output).toMatchInlineSnapshot(`
+					"function foo() {
+					  for (const a of b) {
+					    if (!(x || y)) continue
+					    console.log("hello");
+					  }
+					}"
+				`)
+			},
+			errors(errors) {
+				expect(errors).toHaveLength(1)
+				expect(errors.map((e) => e.messageId)).toMatchInlineSnapshot(`
+            [
+              "preferEarlyReturn",
+            ]
+          `)
+			},
 		},
 	],
 })
