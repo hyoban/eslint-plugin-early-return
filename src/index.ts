@@ -1,4 +1,5 @@
 import { version } from '../package.json'
+import jsoncInlineSpacing from './jsonc-inline-spacing'
 import jsxAttributeSpacing from './jsx-attribute-spacing'
 import preferEarlyReturn from './prefer-early-return'
 
@@ -7,8 +8,10 @@ export default {
     name: 'hyoban',
     version,
   },
+  /// keep-sorted
   rules: {
-    'prefer-early-return': preferEarlyReturn,
+    'jsonc-inline-spacing': jsoncInlineSpacing,
     'jsx-attribute-spacing': jsxAttributeSpacing,
+    'prefer-early-return': preferEarlyReturn,
   },
 }
