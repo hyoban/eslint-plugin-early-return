@@ -6,6 +6,20 @@ import { createRule } from './utils'
 export type MessageIds = 'jsoncInlineSpacing'
 export type Options = []
 
+function getCorrectedSource(value: JsonAST.JSONExpression | null): string | undefined {
+  if (!value)
+    return 'null'
+  if (value.type === 'JSONLiteral')
+    return value.raw
+  if (value.type === 'JSONArrayExpression')
+    return `[${value.elements.map(element => getCorrectedSource(element)).join(', ')}]`
+  if (value.type === 'JSONObjectExpression') {
+    return `{ ${value.properties
+      .filter(property => property.key.type !== 'JSONIdentifier')
+      .map(property => `${(property.key as JsonAST.JSONStringLiteral | JsonAST.JSONNumberLiteral).raw}: ${getCorrectedSource(property.value)}`).join(', ')} }`
+  }
+}
+
 const rule = createRule<Options, MessageIds>({
   name: 'jsonc-inline-spacing',
   meta: {
@@ -29,7 +43,7 @@ const rule = createRule<Options, MessageIds>({
           || node.loc.start.line !== node.loc.end.line
           || !properties.every(property =>
             property.key.type !== 'JSONIdentifier' && property.key.raw
-            && property.value.type === 'JSONLiteral' && property.value.raw
+            && getCorrectedSource(property.value)
             && property?.loc.start.line === node?.loc.start.line,
           )
         if (shouldIgnore)
@@ -37,9 +51,8 @@ const rule = createRule<Options, MessageIds>({
 
         const source = context.sourceCode.getText(node as any)
         // @ts-expect-error it's fine
-        const keys = properties.map(property => property.key.raw)
-        // @ts-expect-error it's fine
-        const values = properties.map(property => property.value.raw)
+        const keys = properties.map(property => property.key.raw.trim())
+        const values = properties.map(property => getCorrectedSource(property.value)?.trim())
         if (keys.length !== values.length)
           return
         const correctedSource = `{ ${keys.map((key, i) => `${key}: ${values[i]}`).join(', ')} }`

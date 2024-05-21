@@ -62,18 +62,18 @@ run({
     {
       code: dedent`
         {
-            "foo": { "a": "1", "a":  "2" , "a": "3","a":    4, "a":false  , "a":null   }
+            "foo": { "a": "1", "a":  "2" , "a": "3","a":    4, "a":false  , "a":null  ,"b": {"c" :1}  }
         }
       `,
       output(output) {
         expect(output).toMatchInlineSnapshot(`
           "{
-              "foo": { "a": "1", "a": "2", "a": "3", "a": 4, "a": false, "a": null }
+              "foo": { "a": "1", "a": "2", "a": "3", "a": 4, "a": false, "a": null, "b": { "c": 1 } }
           }"
         `)
       },
       errors(errors) {
-        expect(errors).toHaveLength(1)
+        expect(errors).toHaveLength(2)
       },
     },
   ],
