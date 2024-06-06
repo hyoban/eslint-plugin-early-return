@@ -41,8 +41,9 @@ const rule = createRule<Options, MessageIds>({
       ) {
         // enforce multiple lines arrow function do not start with same line as jsx expression container
         if (
-          expression.loc.start.line === node.loc.start.line
-          && expression.body.type !== AST_NODE_TYPES.JSXElement
+          expression.body.type !== AST_NODE_TYPES.JSXElement
+          && expression.loc.start.line === node.loc.start.line
+          && expression.loc.end.line !== expression.loc.start.line
         ) {
           context.report({
             node: expression,

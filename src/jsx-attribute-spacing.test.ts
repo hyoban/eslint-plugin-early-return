@@ -130,6 +130,7 @@ run({
             <FormMessage />
           </FormItem>
         )}
+        onSelect={() => handleSelectOption(option)}
       >
         Follow
       </Button>
