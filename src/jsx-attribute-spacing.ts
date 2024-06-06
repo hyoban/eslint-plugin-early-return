@@ -40,7 +40,10 @@ const rule = createRule<Options, MessageIds>({
         && expression.body.type !== AST_NODE_TYPES.BlockStatement)
       ) {
         // enforce multiple lines arrow function do not start with same line as jsx expression container
-        if (expression.loc.start.line === node.loc.start.line) {
+        if (
+          expression.loc.start.line === node.loc.start.line
+          && expression.body.type !== AST_NODE_TYPES.JSXElement
+        ) {
           context.report({
             node: expression,
             messageId: 'noExtraSpaceJsxExpression',

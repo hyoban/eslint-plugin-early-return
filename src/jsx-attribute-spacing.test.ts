@@ -118,6 +118,22 @@ run({
         Follow
       </Button>
     `,
+    dedent`
+      <Button
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Handle</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormDescription>Your unique identifier.</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      >
+        Follow
+      </Button>
+    `,
   ],
   invalid: [
     {
