@@ -1,5 +1,5 @@
 import tsParser from '@typescript-eslint/parser'
-import { run, unindent } from 'eslint-vitest-rule-tester'
+import { run, unindent as dedent } from 'eslint-vitest-rule-tester'
 import { expect } from 'vitest'
 
 import jsxAttributeSpacing from './jsx-attribute-spacing'
@@ -25,7 +25,7 @@ run({
   valid: [
     'const element = <img src={user.avatarUrl} alt="hi" ></img>;',
     'const element = <img src={user.avatarUrl}    alt="hi" ></img>;',
-    unindent`
+    dedent`
       const element = (
         <img
           src={user.avatarUrl}
@@ -33,60 +33,75 @@ run({
         ></img>
       );
     `,
-    unindent`
-        function OutputNode({ data }) {
-          return (
-            <div className="border rounded-md bg-white w-12 h-10">
-              {data.handle?.map((h, i) => (
-                <CustomHandle
-                  key={i}
-                  type="target"
-                  position={Position.Left}
-                  style={getHandleStyle(h.type, i)}
-                  id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
-                    separator,
-                  )}
-                  isValidConnection={(c) => {
-                    return h.type === c.sourceHandle?.split(separator).at(-2);
-                  }}
-                  isConnectable={({ connectedEdges, handleId }) =>
-                    !connectedEdges.some((e) => e.targetHandle === handleId)
-                  }
-                />
-              ))}
-            </div>
-          );
+    dedent`
+      function OutputNode({ data }) {
+        return (
+          <div className="border rounded-md bg-white w-12 h-10">
+            {data.handle?.map((h, i) => (
+              <CustomHandle
+                key={i}
+                type="target"
+                position={Position.Left}
+                style={getHandleStyle(h.type, i)}
+                id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
+                  separator,
+                )}
+                isValidConnection={(c) => {
+                  return h.type === c.sourceHandle?.split(separator).at(-2);
+                }}
+                isConnectable={({ connectedEdges, handleId }) =>
+                  !connectedEdges.some((e) => e.targetHandle === handleId)
+                }
+              />
+            ))}
+          </div>
+        );
+      }
+    `,
+    dedent`
+      function OutputNode({ data }) {
+        return (
+          <div className="border rounded-md bg-white w-12 h-10">
+            {data.handle?.map((h, i) => (
+              <CustomHandle
+                fallback={(
+                  <Loading>
+                    From filed
+                    {itemName}
+                  </Loading>
+                )}
+                options={
+                  Array.isArray(fieldConfigItem.inputProps?.options)
+                    ? fieldConfigItem.inputProps.options
+                    : []
+                }
+                fieldConfig={
+                  (fieldConfig?.[name] ?? {}) as FieldConfig<
+                    z.infer<typeof item>
+                  >
+                }
+              />
+            ))}
+            {1}
+          </div>
+        );
+      }
+    `,
+    dedent`
+      <Button
+        onClick={
+          () => openElectronWindow(
+            a,
+            {
+              resizeable: false,
+              height: 550,
+            },
+          )
         }
-      `,
-    unindent`
-        function OutputNode({ data }) {
-          return (
-            <div className="border rounded-md bg-white w-12 h-10">
-              {data.handle?.map((h, i) => (
-                <CustomHandle
-                  fallback={(
-                    <Loading>
-                      From filed
-                      {itemName}
-                    </Loading>
-                  )}
-                  options={
-                    Array.isArray(fieldConfigItem.inputProps?.options)
-                      ? fieldConfigItem.inputProps.options
-                      : []
-                  }
-                  fieldConfig={
-                    (fieldConfig?.[name] ?? {}) as FieldConfig<
-                      z.infer<typeof item>
-                    >
-                  }
-                />
-              ))}
-              {1}
-            </div>
-          );
-        }
-      `,
+      >
+        Follow
+      </Button>
+    `,
   ],
   invalid: [
     {
@@ -99,7 +114,7 @@ run({
       },
     },
     {
-      code: unindent`
+      code: dedent`
         const element = (
           <img
             src={user.avatarUrl}
@@ -122,34 +137,34 @@ run({
       },
     },
     {
-      code: unindent`
-          function OutputNode({ data }) {
-            return (
-              <div className="border rounded-md bg-white w-12 h-10">
-                {
-                     data.handle?.map((h, i) => (
-                  <CustomHandle
-                    key={  i  }
-                    type="target"
-                    position={   Position.Left}
-                    style={getHandleStyle(h.type, i)}
-                    id={ [handleIdIndicator, handleOutputIndicator, h.type, i].join(
-                      separator,
-                    )    }
-                    isValidConnection={(c) =>
-                      h.type === c.sourceHandle?.split(separator).at(-2)
-                    }
-                    isConnectable={({ connectedEdges, handleId }) =>
-                      !connectedEdges.some((e) => e.targetHandle === handleId)
-                    }
-                  />
-                ))   }
-                {
-                  1}
-              </div>
-            );
-          }
-        `,
+      code: dedent`
+        function OutputNode({ data }) {
+          return (
+            <div className="border rounded-md bg-white w-12 h-10">
+              {
+                   data.handle?.map((h, i) => (
+                <CustomHandle
+                  key={  i  }
+                  type="target"
+                  position={   Position.Left}
+                  style={getHandleStyle(h.type, i)}
+                  id={ [handleIdIndicator, handleOutputIndicator, h.type, i].join(
+                    separator,
+                  )    }
+                  isValidConnection={(c) =>
+                    h.type === c.sourceHandle?.split(separator).at(-2)
+                  }
+                  isConnectable={({ connectedEdges, handleId }) =>
+                    !connectedEdges.some((e) => e.targetHandle === handleId)
+                  }
+                />
+              ))   }
+              {
+                1}
+            </div>
+          );
+        }
+      `,
       output(output) {
         expect(output).toMatchInlineSnapshot(`
           "function OutputNode({ data }) {
@@ -195,13 +210,13 @@ run({
       },
     },
     {
-      code: unindent`
-          <CustomHandle
-            isValidConnection={(c) => {
-              return h.type === c.sourceHandle?.split(separator).at(-2);
-            }                }
-          />
-        `,
+      code: dedent`
+        <CustomHandle
+          isValidConnection={(c) => {
+            return h.type === c.sourceHandle?.split(separator).at(-2);
+          }                }
+        />
+      `,
       output(output) {
         expect(output).toMatchInlineSnapshot(`
           "<CustomHandle
