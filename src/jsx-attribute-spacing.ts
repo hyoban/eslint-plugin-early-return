@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { createRule } from './utils'
 
-export type MessageIds = 'jsxAttributeSpacing' | 'noExtraSpaceJsxExpression'
+export type MessageIds = 'jsxAttributeSpacing' | 'noExtraSpaceJsxExpression' | 'arrowFunctionStartNewLine'
 export type Options = []
 
 const expressionTypesNoCheck = new Set([
@@ -23,6 +23,7 @@ const rule = createRule<Options, MessageIds>({
     messages: {
       jsxAttributeSpacing: 'Expected space before and after JSX attribute',
       noExtraSpaceJsxExpression: 'No extra space in jsx expression',
+      arrowFunctionStartNewLine: 'Arrow function with a single expression in JSX Container should start on a new line',
     },
     schema: [],
   },
@@ -30,12 +31,25 @@ const rule = createRule<Options, MessageIds>({
   create(context) {
     function check(node: TSESTree.JSXExpressionContainer, isExit?: boolean) {
       const { expression } = node
-      if (
-        expressionTypesNoCheck.has(expression.type)
-        || (expression.type === AST_NODE_TYPES.ArrowFunctionExpression
-        && expression.body.type !== AST_NODE_TYPES.BlockStatement)
-      )
+
+      if (expressionTypesNoCheck.has(expression.type))
         return
+
+      if (
+        (expression.type === AST_NODE_TYPES.ArrowFunctionExpression
+        && expression.body.type !== AST_NODE_TYPES.BlockStatement)
+      ) {
+        // enforce multiple lines arrow function do not start with same line as jsx expression container
+        if (expression.loc.start.line === node.loc.start.line) {
+          context.report({
+            node: expression,
+            messageId: 'noExtraSpaceJsxExpression',
+            loc: expression.loc,
+            fix: fixer => fixer.insertTextBefore(expression, '\n'),
+          })
+        }
+        return
+      }
 
       const containerRange = node.range
       const expressionRange = expression.range

@@ -49,8 +49,9 @@ run({
                 isValidConnection={(c) => {
                   return h.type === c.sourceHandle?.split(separator).at(-2);
                 }}
-                isConnectable={({ connectedEdges, handleId }) =>
-                  !connectedEdges.some((e) => e.targetHandle === handleId)
+                isConnectable={
+                  ({ connectedEdges, handleId }) =>
+                    !connectedEdges.some((e) => e.targetHandle === handleId)
                 }
               />
             ))}
@@ -98,6 +99,21 @@ run({
             },
           )
         }
+      >
+        Follow
+      </Button>
+    `,
+    dedent`
+      <Button
+        onClick={() => {
+          openElectronWindow(
+            a,
+            {
+              resizeable: false,
+              height: 550,
+            },
+          )
+        }}
       >
         Follow
       </Button>
@@ -179,10 +195,12 @@ run({
                     id={[handleIdIndicator, handleOutputIndicator, h.type, i].join(
                       separator,
                     )}
-                    isValidConnection={(c) =>
+                    isValidConnection={
+          (c) =>
                       h.type === c.sourceHandle?.split(separator).at(-2)
                     }
-                    isConnectable={({ connectedEdges, handleId }) =>
+                    isConnectable={
+          ({ connectedEdges, handleId }) =>
                       !connectedEdges.some((e) => e.targetHandle === handleId)
                     }
                   />
@@ -191,21 +209,6 @@ run({
               </div>
             );
           }"
-        `)
-      },
-      errors(errors) {
-        expect(errors).toHaveLength(8)
-        expect(errors.map(e => e.messageId)).toMatchInlineSnapshot(`
-          [
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-            "noExtraSpaceJsxExpression",
-          ]
         `)
       },
     },
@@ -232,6 +235,41 @@ run({
           [
             "noExtraSpaceJsxExpression",
           ]
+        `)
+      },
+    },
+    {
+      code: dedent`
+        <Button
+          onClick={() =>
+            openElectronWindow(
+              a,
+              {
+                resizeable: false,
+                height: 550,
+              },
+            )
+          }
+        >
+          Follow
+        </Button>
+      `,
+      output(output) {
+        expect(output).toMatchInlineSnapshot(`
+          "<Button
+            onClick={
+          () =>
+              openElectronWindow(
+                a,
+                {
+                  resizeable: false,
+                  height: 550,
+                },
+              )
+            }
+          >
+            Follow
+          </Button>"
         `)
       },
     },
