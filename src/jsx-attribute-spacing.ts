@@ -1,18 +1,17 @@
 import type { TSESTree } from '@typescript-eslint/utils'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule } from './utils'
+import { createEslintRule } from './utils'
 
 export type MessageIds = 'jsxAttributeSpacing' | 'noExtraSpaceJsxExpression'
 export type Options = []
 
 const expressionTypesNoCheck = new Set([
-  AST_NODE_TYPES.ConditionalExpression,
-  AST_NODE_TYPES.JSXElement,
-  AST_NODE_TYPES.TSAsExpression,
+  'ConditionalExpression',
+  'JSXElement',
+  'TSAsExpression',
 ])
 
-const rule = createRule<Options, MessageIds>({
+const rule = createEslintRule<Options, MessageIds>({
   name: 'jsx-attribute-spacing',
   meta: {
     type: 'layout',
@@ -32,10 +31,11 @@ const rule = createRule<Options, MessageIds>({
       const { expression } = node
       if (
         expressionTypesNoCheck.has(expression.type)
-        || (expression.type === AST_NODE_TYPES.ArrowFunctionExpression
-        && expression.body.type !== AST_NODE_TYPES.BlockStatement)
-      )
+        || (expression.type === 'ArrowFunctionExpression'
+        && expression.body.type !== 'BlockStatement')
+      ) {
         return
+      }
 
       const containerRange = node.range
       const expressionRange = expression.range

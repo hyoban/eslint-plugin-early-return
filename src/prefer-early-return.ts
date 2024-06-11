@@ -1,17 +1,16 @@
 import type { TSESTree } from '@typescript-eslint/utils'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule } from './utils'
+import { createEslintRule } from './utils'
 
 export type MessageIds = 'preferEarlyReturn'
 export type Options = []
 
 function isConditionRevertNeedBracket(node: TSESTree.Node) {
   return !(
-    node.type === AST_NODE_TYPES.Identifier
-    || node.type === AST_NODE_TYPES.Literal
-    || node.type === AST_NODE_TYPES.MemberExpression
-    || node.type === AST_NODE_TYPES.CallExpression
+    node.type === 'Identifier'
+    || node.type === 'Literal'
+    || node.type === 'MemberExpression'
+    || node.type === 'CallExpression'
   )
 }
 
@@ -21,13 +20,13 @@ function getIndentation(node: TSESTree.Node) {
 
 function isNodeNeedEarlyReturn(node: TSESTree.Node) {
   return (
-    node.type === AST_NODE_TYPES.ReturnStatement
-    || node.type === AST_NODE_TYPES.ThrowStatement
-    || node.type === AST_NODE_TYPES.ContinueStatement
+    node.type === 'ReturnStatement'
+    || node.type === 'ThrowStatement'
+    || node.type === 'ContinueStatement'
   )
 }
 
-const rule = createRule<Options, MessageIds>({
+const rule = createEslintRule<Options, MessageIds>({
   name: 'prefer-early-return',
   meta: {
     docs: {
@@ -49,7 +48,7 @@ const rule = createRule<Options, MessageIds>({
 
         if (
           isNodeNeedEarlyReturn(node.alternate)
-          || (node.alternate.type === AST_NODE_TYPES.BlockStatement
+          || (node.alternate.type === 'BlockStatement'
           && node.alternate.body.some(statement =>
             isNodeNeedEarlyReturn(statement),
           ))
@@ -67,8 +66,8 @@ const rule = createRule<Options, MessageIds>({
               ifText
                 = ifText.startsWith('{') && ifText.endsWith('}')
                   ? ifText
-                    .replace(/^{/, '')
-                    .replace(/}$/, '')
+                    .replace(/^\{/, '')
+                    .replace(/\}$/, '')
                     .replaceAll('\n  ', '\n')
                     .slice(1, -1)
                   : `${getIndentation(node)}${ifText}`

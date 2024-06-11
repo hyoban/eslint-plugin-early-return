@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AST as JsonAST } from 'jsonc-eslint-parser'
 
-import { createRule } from './utils'
+import { createEslintRule } from './utils'
 
 export type MessageIds = 'jsoncInlineSpacing'
 export type Options = []
@@ -20,7 +20,7 @@ function getCorrectedSource(value: JsonAST.JSONExpression | null): string | unde
   }
 }
 
-const rule = createRule<Options, MessageIds>({
+const rule = createEslintRule<Options, MessageIds>({
   name: 'jsonc-inline-spacing',
   meta: {
     type: 'layout',
